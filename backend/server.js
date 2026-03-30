@@ -47,7 +47,14 @@ app.use((req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 11000;
 app.listen(PORT, () => {
-  console.log(`Backend server running on port ${PORT}`);
+  console.log(`\x1b[32m✔ SUCCESS:\x1b[0m Customer API is live and separated on port ${PORT}`);
+  console.log(`\x1b[36mℹ INFO:\x1b[0m Backend is ready for online bookings at http://localhost:${PORT}/api`);
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error('\x1b[31m✘ SERVER ERROR:\x1b[0m', err.stack);
+  res.status(500).json({ success: false, message: 'Internal Server Error', error: err.message });
 });
