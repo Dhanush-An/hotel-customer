@@ -28,7 +28,9 @@ import {
   Loader2,
   RefreshCw,
   Wifi,
-  WifiOff
+  WifiOff,
+  ShieldCheck,
+  Phone
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getAvailableRooms, getBookings, createBooking } from '../services/api';
@@ -203,7 +205,14 @@ const Dashboard = () => {
         {apiOnline === false && (
           <div className="mx-6 mt-4 flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
             <WifiOff size={16} className="text-amber-500 shrink-0"/>
-            <p className="text-xs text-amber-700 font-semibold">Cannot reach HMS backend. Showing cached data. Start the backend server at <code className="bg-amber-100 px-1 rounded">D:\HMS\backend</code>.</p>
+            <p className="text-xs text-amber-700 font-semibold italic uppercase tracking-widest leading-relaxed">
+              {window.location.hostname === 'localhost' ? (
+                <>Cannot reach Customer API. Start the backend server for HMS synchronization.</>
+              ) : (
+                <>Establishing secure connection to HMS services... (Showing Limited Offline Data)</>
+              )}
+            </p>
+            <button onClick={fetchLiveData} className="ml-auto p-1.5 hover:bg-amber-100 rounded-lg text-amber-600 transition-colors"><RefreshCw size={14} className="animate-spin-slow" /></button>
           </div>
         )}
         {apiOnline === true && (
